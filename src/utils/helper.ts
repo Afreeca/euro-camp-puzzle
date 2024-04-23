@@ -1,4 +1,5 @@
 import { ColourCount, GameData, GameResult, GameSubset } from '../components/type';
+import { DIGITS_MAPS } from './digitsMap';
 
 /**
  * extract the calibration values
@@ -15,6 +16,32 @@ export const extractCalibrations = (line: string): number => {
 
   return calibrationValue;
 };
+
+function convertToNumber(input: string): string | number {
+  return DIGITS_MAPS[input.toLowerCase()] || input;
+}
+
+function splitStringByNumber(input: string): string[] {
+  const digitsMapKeys = Object.keys(DIGITS_MAPS);
+  const regex = new RegExp(`(${digitsMapKeys.join('|')}|\\d)`, 'ig');
+  return input.match(regex) || [];
+}
+
+export function extractCalibrationsWithLetters(line: string): number {
+  const substrings = splitStringByNumber(line);
+
+  if (substrings.length === 0) {
+    return 0;
+  }
+
+  const first = substrings[0];
+  const last = substrings[substrings.length - 1];
+
+  const firstDigit = typeof first === 'string' ? convertToNumber(first) : first;
+  const lastDigit = typeof last === 'string' ? convertToNumber(last) : last;
+
+  return parseInt('' + firstDigit + lastDigit);
+}
 
 /**
  * calculate total calibration
@@ -33,6 +60,9 @@ export const sumCalibration = (calibrations: number[]) => {
 export const processGameData = (gameRecords: string[]): GameData => {
   const gamesData: GameData = {};
   for (const record of gameRecords) {
+    if (!record || record.trim() === '') {
+      continue;
+    }
     const [gameId, subsetRecord] = record.split(': ');
     const subsets = subsetRecord.split(';').map((subset) => subset.trim().split(', '));
     gamesData[gameId] = subsets;
@@ -46,7 +76,6 @@ export const processGameData = (gameRecords: string[]): GameData => {
  * @returns return the total count by colour for a particular game ex: { red: x, blue: y, green: z }
  */
 export const getTotalColorCounts = (subsets: GameSubset[]): Record<string, number> => {
-  console.log('subsets: ', subsets);
   const colorCounts: Record<string, number> = {};
 
   subsets.forEach((subset) => {
@@ -57,7 +86,6 @@ export const getTotalColorCounts = (subsets: GameSubset[]): Record<string, numbe
     });
   });
 
-  console.log('colorCounts: ', colorCounts);
   return colorCounts;
 };
 
@@ -77,7 +105,6 @@ export const getTotalColorCountsPerGame = (gamesData: GameData): Record<string, 
 };
 
 export const getPossibleGames = (configuration: ColourCount, ColorCountsPerGame: GameResult): string[] => {
-  console.log({ configuration, ColorCountsPerGame });
   const possibleGames: string[] = [];
 
   for (const gameId in ColorCountsPerGame) {

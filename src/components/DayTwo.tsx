@@ -15,6 +15,8 @@ export const DayTwo = ({ onResult }: GameProps) => {
   const processFile = (lines: string[]) => {
     const data = processGameData(lines);
     const totalColorCountsPerGame = getTotalColorCountsPerGame(data);
+
+    console.log({ data, totalColorCountsPerGame });
     setTotalColorCountsPerGame(totalColorCountsPerGame);
   };
 
@@ -23,7 +25,6 @@ export const DayTwo = ({ onResult }: GameProps) => {
 
     const configuration = CONFIGURATION[config];
     const result = getPossibleGames(configuration, totalColorCountsPerGame);
-    console.log('test: ', { result, configuration, totalColorCountsPerGame });
     onResult(`Possible games: ${result.join(' ')}`);
     setPossibleGames(result);
   };
@@ -32,7 +33,7 @@ export const DayTwo = ({ onResult }: GameProps) => {
     const sumOfIds = possibleGames
       ?.map((game) => {
         const [prefix, numericalPart]: string[] = game.split(' ');
-        return numericalPart ? parseInt(numericalPart[0]) : 0;
+        return numericalPart ? parseInt(numericalPart) : 0;
       })
       .reduce((sum: number, numericalPart: number) => sum + numericalPart, 0);
 
