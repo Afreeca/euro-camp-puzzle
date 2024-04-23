@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { GAMES } from './components/utils/gamesMap';
+import { GAMES } from './utils/gamesMap';
 
 function App() {
   const [selectedGame, setSelectedGame] = useState<number | null>(null);

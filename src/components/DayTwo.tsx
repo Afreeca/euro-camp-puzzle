@@ -1,8 +1,8 @@
 import { useState } from 'react';
+import { getPossibleGames, getTotalColorCountsPerGame, processGameData } from '../utils/helper';
 import DownloadButton from './shared/DownloadFile';
 import UploadFileInput from './shared/UploadFile';
 import { Configuration, GameProps } from './type';
-import { getPossibleGames, getTotalColorCountsPerGame, processGameData } from './utils/helper';
 
 const CONFIGURATION: Configuration = {
   1: { red: 12, green: 13, blue: 14 }
@@ -23,6 +23,7 @@ export const DayTwo = ({ onResult }: GameProps) => {
 
     const configuration = CONFIGURATION[config];
     const result = getPossibleGames(configuration, totalColorCountsPerGame);
+    console.log('test: ', { result, configuration, totalColorCountsPerGame });
     onResult(`Possible games: ${result.join(' ')}`);
     setPossibleGames(result);
   };
@@ -61,12 +62,12 @@ export const DayTwo = ({ onResult }: GameProps) => {
           </div>
           {possibleGames && (
             <div className="bg-orange-300 p-2 flex flex-col gap-2">
-              <h5>What is the sum of the IDs of those games</h5>
+              <h5>Calculate the sum of the IDs of those games</h5>
               <button
                 className="bg-orange-600 hover:bg-orange-500 text-white font-semibold py-2 px-4 rounded-lg shadow-md mb-4 focus:outline-none"
                 onClick={handleIdsSum}
               >
-                Load
+                Calculate
               </button>
             </div>
           )}

@@ -1,4 +1,4 @@
-import { ColourCount, GameData, GameResult, GameSubset } from '../type';
+import { ColourCount, GameData, GameResult, GameSubset } from '../components/type';
 
 /**
  * extract the calibration values
@@ -46,6 +46,7 @@ export const processGameData = (gameRecords: string[]): GameData => {
  * @returns return the total count by colour for a particular game ex: { red: x, blue: y, green: z }
  */
 export const getTotalColorCounts = (subsets: GameSubset[]): Record<string, number> => {
+  console.log('subsets: ', subsets);
   const colorCounts: Record<string, number> = {};
 
   subsets.forEach((subset) => {
@@ -56,6 +57,7 @@ export const getTotalColorCounts = (subsets: GameSubset[]): Record<string, numbe
     });
   });
 
+  console.log('colorCounts: ', colorCounts);
   return colorCounts;
 };
 
