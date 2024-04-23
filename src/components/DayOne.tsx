@@ -8,7 +8,7 @@ export const DayOne = ({ onResult }: GameProps) => {
   const [calibrations, setCalibrations] = useState<number[] | undefined>();
 
   const processFile = (lines: string[]) => {
-    const calibrations = lines.map((line) => extractCalibrations(line));
+    const calibrations = lines.map((line) => extractCalibrations(line)).filter((line) => line > 0);
     setCalibrations(calibrations);
     onResult(`calibration values are : ${calibrations.join(' ')}`);
   };
