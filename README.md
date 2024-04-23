@@ -8,10 +8,6 @@ EuroCamp: Conding challenge
 
 Advent of Code is a fun coding challenge that takes place each year, consisting of a series of small puzzles. We would like you to complete a part of this challenge to demonstrate your coding style and approach to problem solving. The challenge can be found at [https://adventofcode.com](https://adventofcode.com/). You will need to connect your GitHub account to participate.
 
-### Product assumptions
-
-- First day of the week is Monday
-
 ### Project directory structure
 
     ├───cypress/ # cypress end to end tests
